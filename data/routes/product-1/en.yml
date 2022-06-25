@@ -1,0 +1,20 @@
+id: product-1
+fields:
+  pageTitle: Bootcamp JSS Training
+placeholders:
+  jss-main:
+    - componentName: ProductDetails
+      fields:
+        productName: Gopi Sivanappan Vasanthi
+        productModelYear: Architect
+        productBrand: Application Engineering
+        productPricing: 1000
+        productImage: 
+          src:  /data/media/img/sc_logo.png
+          alt: Author Name
+    - componentName: ProductCarousel
+      fields:
+        items:
+        - id: carousel-item-1
+        - id: carousel-item-2
+

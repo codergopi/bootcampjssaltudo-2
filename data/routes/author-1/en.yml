@@ -1,0 +1,14 @@
+id: author-1
+fields:
+  pageTitle: Bootcamp JSS Training
+placeholders:
+  jss-main:
+    - componentName: BootCampAuthor
+      fields:
+        authorname: Gopi Sivanappan Vasanthi
+        authordesignation: Architect
+        authordepartment: Application Engineering
+        authorImage: 
+          src:  /data/media/img/sc_logo.png
+          alt: Author Name
+

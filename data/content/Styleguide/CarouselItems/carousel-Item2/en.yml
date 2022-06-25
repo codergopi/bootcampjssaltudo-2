@@ -1,0 +1,10 @@
+id: carousel-item-2
+displayName: Item 2
+# Template defines the available fields. See /sitecore/definitions/templates/Styleguide-ContentList-Template.sitecore.js
+template: CarouselItem-Template
+fields:
+  carouselText: ContentList Demo (Shared) Item 2 Text Field
+  carouselLinkUrl: https://google.com
+  carouselFullBleedImage:
+    src: /data/media/img/sc_logo.png
+    alt: CarouselItem
