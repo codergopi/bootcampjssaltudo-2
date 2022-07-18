@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, Image } from '@sitecore-jss/sitecore-jss-react';
 import gql from 'graphql-tag';
 import GraphQLData from '../../lib/GraphQLData';
+import Nav from 'react-bootstrap/Nav';
 import { Link } from 'react-router-dom';
 
 const HEADER_QUERY = gql`
@@ -28,18 +29,26 @@ const HEADER_QUERY = gql`
 `;
 
 let HeaderTitle = ({ title }) => {
-  return <h1>{title}</h1>;
+  return (
+    <div className="HeaderTitleNav">
+      <a href="index.html" className="navbar-brand">
+        {title}
+      </a>
+    </div>
+  );
 };
 
 let HeaderMainNavigation = ({ navLinks }) => {
   return (
     <div>
-      {navLinks &&
-        navLinks.map((listitem, index) => (
-          <div key={`navItem-${index}`}>
-            <Link to={listitem.url.url}>{listitem.name}</Link>
-          </div>
-        ))}
+      <Nav className="HeaderMainNav" defaultActiveKey="/home" as="ul">
+        {navLinks &&
+          navLinks.map((listitem, index) => (
+            <Nav.Item as="li" key={`navItem-${index}`}>
+              <Nav.Link href={listitem.url.url}>{listitem.name}</Nav.Link>
+            </Nav.Item>
+          ))}
+      </Nav>
     </div>
   );
 };
@@ -48,13 +57,14 @@ let BootCampHeader = (props) => {
   const headerQ = props.headerQuery;
   console.log(props);
   return (
-    <div>
+    <div className="bootcampheader">
       <HeaderTitle
         title={
           props.headerQuery.headernavigationquery &&
           props.headerQuery.headernavigationquery.headerTitle.value
         }
       />
+      {/* <div className="overlay"></div> */}
       <HeaderMainNavigation
         navLinks={
           props.headerQuery.headernavigationquery &&

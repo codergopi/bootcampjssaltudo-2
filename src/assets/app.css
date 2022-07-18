@@ -1,5 +1,5 @@
 a[target='_blank']:after {
-  content: '\1F5D7'
+  content: '\1F5D7';
 }
 
 /*
@@ -7,7 +7,10 @@ a[target='_blank']:after {
   if you run the app in connected mode while the Sitecore cookies
   are set to edit mode.
 */
-.scChromeData, .scpm { display: none !important; }
+.scChromeData,
+.scpm {
+  display: none !important;
+}
 
 /* 
   Style for default content block
@@ -16,4 +19,48 @@ a[target='_blank']:after {
   font-size: 3.5rem;
   font-weight: 300;
   line-height: 1.2;
+}
+
+.bootcampheader {
+  background: url('./office-2.webp') no-repeat center center;
+  background-image: -moz-repeating-linear-gradient();
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  max-width: 100vw;
+  min-height: 100vh;
+  width: 100vw;
+  vertical-align: middle;
+  background-size: cover;
+  align-items: center;
+  padding-top: 12em;
+  text-align: center;
+}
+
+.overlay {
+  background: #536976; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #292e49, #536976); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #292e49,
+    #536976
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  opacity: 0.9;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.HeaderMainNav nav li {
+  font: bold;
+  font-size: medium;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 100;
+  font-variant: normal;
+  color: black;
 }
