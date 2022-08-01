@@ -8,27 +8,206 @@
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
     <script type="text/javascript">
       // Define the Boxever queue
+      // Define the Boxever queue
       var _boxeverq = _boxeverq || [];
 
       // Define the Boxever settings
       var _boxever_settings = {
         client_key: 'pqsmpg99hzkfe1za3socuk3x1d6cvv69', // Replace with your client key
         target: 'https://api.boxever.com/v1.2', // Replace with your API target endpoint specific to your data center region
-        cookie_domain: '.localhost', // Replace with the top level cookie domain of the website that is being integrated e.g ".example.com" and not "www.example.com"
-        javascriptLibraryVersion: '1.4.9', // Replace with the latest Boxever JavaScript library version"
-        pointOfSale: 'BootCamp_CDP', // Replace with the same point of sale configured in system settings"
-        web_flow_target: 'https://d35vb5cccm4xzp.cloudfront.net', // Replace with path for the Amazon CloudFront CDN for Sitecore Personalize"
-        web_flow_config: { async: false, defer: false }, // Customize the async and defer script loading attributes
+        cookie_domain: 'bootcampjssapp.dev.local', // Replace with the top level cookie domain of the website that is being integrated e.g ".example.com" and not "www.example.com"
+        web_flow_target: 'https://d35vb5cccm4xzp.cloudfront.net',
+        pointOfSale: 'BootCamp_CDP',
       };
       // Import the Boxever library asynchronously
       (function () {
         var s = document.createElement('script');
         s.type = 'text/javascript';
         s.async = true;
-        s.src = 'https://d1mj578wat5n4o.cloudfront.net/boxever-{{clientVersion}}.min.js';
+        s.src = 'https://d1mj578wat5n4o.cloudfront.net/boxever-1.4.8.min.js';
         var x = document.getElementsByTagName('script')[0];
         x.parentNode.insertBefore(s, x);
       })();
+
+      function triggerEventViaPush() {
+        // Place an anonymous function in the Boxever queue
+        _boxeverq.push(function () {
+          var searchEvent = {
+            browser_id: Boxever.getID(),
+            channel: 'WEB',
+            type: 'SEARCH',
+            language: 'EN',
+            currency: 'AED',
+            page: 'test-arvind',
+            //"pos": window._boxever_settings.pointOfSale,
+            product_name: 'DUB-IND',
+            product_type: 'Push|DUB-IND|Business|Flex',
+          };
+          // Invoke event create
+          // (<event msg>, <callback function>, <format>)
+          Boxever.eventCreate(
+            searchEvent,
+            function (data) {
+              alert(JSON.stringify(data));
+            },
+            'json'
+          );
+          alert(window._boxever_settings.pointOfSale);
+        });
+      }
+
+      function sendDataToBoxever(eventType) {
+        var eventToSent = {
+          channel: 'WEB',
+          type: eventType,
+          pos: window._boxever_settings.pointOfSale,
+          browser_id: Boxever.getID(),
+          product_name: 'DUB-IND',
+          product_type: 'DUB-IND|Economy|Flex', //"interactionID":"OOB_EXP",
+          //"interactionName": "EMAIL_BAR_DELAY"
+        };
+        Boxever.eventCreate(
+          eventToSent,
+          function (data) {
+            alert(JSON.stringify(data));
+          },
+          'json'
+        );
+      }
+
+      function addEventViaXmlHttp() {
+        var xmlHttp = new XMLHttpRequest();
+
+        var searchEvent = {
+          browser_id: Boxever.getID(),
+          channel: 'WEB',
+          type: 'SEARCH',
+          language: 'EN',
+          currency: 'AED',
+          page: '/test-arvind',
+          pos: window._boxever_settings.pointOfSale,
+          product_name: 'DUB-IND',
+          product_type: 'XmlHttp|DUB-IND|Economy|Flex',
+        };
+
+        var theUrl =
+          'https://api.boxever.com/v1.2/event/create.json?client_key=psfu6uh05hsr9c34rptlr06dn864cqrx&message=' +
+          JSON.stringify(searchEvent);
+        xmlHttp.open('GET', theUrl, false); // false for synchronous request
+
+        xmlHttp.send(null);
+        alert(JSON.stringify(xmlHttp.responseText));
+      }
+      function addPageViewEventViaXmlHttp(pageName) {
+        var xmlHttp = new XMLHttpRequest();
+
+        var searchEvent = {
+          browser_id: Boxever.getID(),
+          channel: 'WEB',
+          type: 'VIEW',
+          language: 'EN',
+          currency: 'AED',
+          page: pageName,
+          product_name: 'DUB-IND',
+          product_type: 'XmlHttp|DUB-IND|Economy|Flex',
+          pos: 'Virtual-POS-Arvind',
+        };
+
+        var theUrl =
+          'https://api.boxever.com/v1.2/event/create.json?client_key=psfu6uh05hsr9c34rptlr06dn864cqrx&message=' +
+          JSON.stringify(searchEvent);
+        xmlHttp.open('GET', theUrl, false); // false for synchronous request
+
+        xmlHttp.send(null);
+        alert(JSON.stringify(xmlHttp.responseText));
+      }
+      function sendIdentityEvent() {
+        var eventToSend = {
+          channel: 'WEB',
+          type: 'IDENTITY',
+          pos: window._boxever_settings.pointOfSale,
+          browser_id: Boxever.getID(),
+          nationality: 'Human',
+          firstName: 'Gopi',
+          //"email": document.getElementById("bx-email_input").value
+          email: 'test@test.com',
+        };
+        Boxever.eventCreate(eventToSend, function (data) {}, 'json');
+      }
+      function sendSubscriptionEvent() {
+        var eventToSend = {
+          action: 'SOFT_SUBSCRIBE',
+          type: 'SUBSCRIPTION',
+          customer: {
+            email: 'test@test.com',
+          },
+          subscription: {
+            name: 'arvind-subscription-new',
+            pos: window._boxever_settings.pointOfSale,
+            channel: 'EMAIL',
+          },
+        };
+        Boxever.eventCreate(
+          eventToSend,
+          function (data) {
+            alert(JSON.stringify(data));
+          },
+          'json'
+        );
+      }
+      function triggerInteractive() {
+        var flowData = {
+          clientKey: window._boxever_settings.client_key,
+          channel: 'WEB',
+          language: 'en',
+          currencyCode: 'EUR',
+          pointOfSale: window._boxever_settings.pointOfSale,
+          browserId: Boxever.getID(),
+          friendlyId: 'interactiveexparvind',
+        };
+        Boxever.callFlows(flowData, function (response) {
+          alert('Congrations!!! \n you got ' + JSON.stringify(response.decisionOffers[0].name));
+        });
+      }
+      function triggerFlow() {
+        var flowData = {
+          clientKey: window._boxever_settings.client_key,
+          channel: 'WEB',
+          language: 'en',
+          currencyCode: 'EUR',
+          pointOfSale: window._boxever_settings.pointOfSale,
+          browserId: Boxever.getID(),
+          friendlyId: 'Flow-CallCenter-Arvind',
+        };
+        Boxever.callFlows(flowData, function (response) {
+          alert(JSON.stringify(response));
+        });
+      }
+      function getGuestIdFromBrowserId() {
+        // other Boxever JS lib methods: https://sitecore.cdpknowledgehub.com/docs/web-tagging-javascript-library-functions
+        Boxever.browserShow(
+          Boxever.getID(),
+          0,
+          function (response) {
+            var guestRef = response.customer.ref;
+            alert(guestRef);
+          },
+          'json'
+        );
+      }
+      function closeTheSession() {
+        var closeSessionEvent = {
+          browser_id: Boxever.getID(),
+          channel: 'WEB',
+          language: 'EN',
+          currency: 'EUR',
+          pos: BOXEVER_POINT_OF_SALE,
+          type: 'FORCE_CLOSE',
+          _bx_extended_message: '1',
+        };
+
+        Boxever.eventCreate(closeSessionEvent, function (data) {}, 'json');
+      }
     </script>
   </head>
   <body>

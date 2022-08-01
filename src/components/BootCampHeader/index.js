@@ -57,7 +57,7 @@ let BootCampHeader = (props) => {
   const headerQ = props.headerQuery;
   console.log(props);
   return (
-    <div className="bootcampheader">
+    <div>
       <HeaderTitle
         title={
           props.headerQuery.headernavigationquery &&
